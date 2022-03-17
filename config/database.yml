@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: maikondouglas
+  password: M@ikon2020
+  host:     localhost
+  port:     5433
+  pool:    5
+
+development:
+  <<: *default
+  database: product_list_development
+
+test:
+  <<: *default
+  database: product_list_test
+
+production:
+  <<: *default
+  database: control_payments_production
+  username: control_payments
+  password: <%= ENV['CONTROL_PAYMENTS_DATABASE_PASSWORD'] %>
