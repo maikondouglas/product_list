@@ -1,15 +1,15 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: maikondouglas
-  password: M@ikon2020
-  host:     localhost
-  port:     5433
-  pool:    5
+  username: <%= ENV.fetch('DATABASE_USER')     { postgres } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { postgres } %>
+  host:     <%= ENV.fetch('DATABASE_HOST')     { localhost } %>
+  port:     <%= ENV.fetch('DATABASE_PORT')     { 5432 } %>
+  pool:     <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
 
 development:
   <<: *default
-  database: product_list_development
+  database: <%= ENV.fetch('DATABASE_NAME') { product_list_developmet } %>
 
 test:
   <<: *default

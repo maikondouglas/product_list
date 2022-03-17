@@ -1,16 +1,15 @@
-class Product::Product < ApplicationRecord
-  include Filterable
+# frozen_string_literal: true
 
-  has_many :product_categories
-  has_many :categories, through: :product_categories
+module Product
+  class Product < ApplicationRecord
+    include Filterable
 
-  scope :filter_by_name, -> (name) { where("name like ?", "%#{name}%") }
-  scope :filter_by_description, -> (description) { where("description like ?", "%#{description}%") }
-  scope :filter_by_category, -> (category) { joins(:categories).where(categories: {id: category}) }
-  scope :filter_by_price, -> (price) { where("price <= ?", price) }
+    has_many :product_categories, dependent: :destroy
+    has_many :categories, through: :product_categories
 
-  # validates :name, presence: true
-  # validates :description, presence: true
-  # validates :price, presence: true
-  # validates :price, numericality: {greater_than_or_equal_to: 0}
+    scope :filter_by_name,        ->(name) { where('name like ?', "%#{name}%") }
+    scope :filter_by_description, ->(description) { where('description like ?', "%#{description}%") }
+    scope :filter_by_category,    ->(category) { joins(:categories).where(categories: { id: category }) }
+    scope :filter_by_price,       ->(price) { where('price <= ?', price) }
+  end
 end
